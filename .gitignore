@@ -1,0 +1,7 @@
+backend/target/
+backend/.idea/
+backend/*.iml
+
+.idea/
+.vscode/
+*.swp
