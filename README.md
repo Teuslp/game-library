@@ -34,4 +34,4 @@ A segurança é o pilar central desta API. Atualmente, o sistema conta com:
 
 1. **Clone o repositório:**
    ```bash
-   git clone [https://github.com/seu-usuario/game-library.git](https://github.com/seu-usuario/game-library.git)
+   git clone https://github.com/Teuslp/game-library.git
