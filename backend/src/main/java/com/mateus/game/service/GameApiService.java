@@ -1,5 +1,6 @@
 package com.mateus.game.service;
 
+import com.mateus.game.dto.ExternalGameDTO;
 import com.mateus.game.dto.RawgResponseDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -35,4 +36,13 @@ public class GameApiService {
             return new RawgResponseDTO(0, java.util.List.of());
         }
     }
+
+    public ExternalGameDTO findGameById(Long id) {
+        String url = UriComponentsBuilder.fromUriString(BASE_URL + "/" + id)
+                .queryParam("key", apiKey)
+                .toUriString();
+
+        return restTemplate.getForObject(url, ExternalGameDTO.class);
+    }
+
 }
