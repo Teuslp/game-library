@@ -1,6 +1,7 @@
 package com.mateus.game.service;
 
 import com.mateus.game.dto.ExternalGameDTO;
+import com.mateus.game.dto.GameResponseDTO;
 import com.mateus.game.entity.Game;
 import com.mateus.game.entity.User;
 import com.mateus.game.repository.GameRepository;
@@ -8,7 +9,8 @@ import com.mateus.game.repository.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.Set;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CollectionService {
@@ -49,12 +51,13 @@ public class CollectionService {
         return gameRepository.save(newGame);
     }
 
-    // Adicione este método ao seu CollectionService.java
-    public Set<Game> getUserCollection() {
+    public List<GameResponseDTO> getUserCollection() {
         String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = (User) userRepository.findByEmail(userEmail);
 
-        return user.getGames();
+        return user.getGames().stream()
+                .map(GameResponseDTO::new)
+                .collect(Collectors.toList());
     }
 
 }
