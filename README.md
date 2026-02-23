@@ -32,6 +32,16 @@ A segurança é o pilar central desta API. Atualmente, o sistema conta com:
 
 ## 🏗️ Como Rodar o Projeto
 
-1. **Clone o repositório:**
-   ```bash
-   git clone https://github.com/Teuslp/game-library.git
+## ▶️ Como executar
+
+```bash
+git clone https://github.com/seu-usuario/game-library.git
+cd game-library
+mvn spring-boot:run
+```
+
+Configure no `application.properties`:
+
+```properties
+JWT_SECRET=sua_chave_secreta
+```
