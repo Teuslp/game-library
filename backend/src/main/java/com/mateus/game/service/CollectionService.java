@@ -60,4 +60,18 @@ public class CollectionService {
                 .collect(Collectors.toList());
     }
 
+    public void removeGameFromCollection(Long rawgId) {
+        String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = (User) userRepository.findByEmail(userEmail);
+
+        Game gameToRemove = user.getGames().stream()
+                .filter(game -> game.getRawgId().equals(rawgId))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Jogo não encontrado na sua coleção."));
+
+        user.getGames().remove(gameToRemove);
+
+        userRepository.save(user);
+    }
+
 }

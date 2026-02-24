@@ -32,4 +32,16 @@ public class CollectionController {
         return ResponseEntity.ok(collectionService.getUserCollection());
     }
 
+    @DeleteMapping("/remove/{rawgId}")
+    public ResponseEntity<String> removeGame(@PathVariable Long rawgId) {
+        try {
+            collectionService.removeGameFromCollection(rawgId);
+            return ResponseEntity.ok("Jogo removido da sua coleção com sucesso!");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Erro ao remover jogo: " + e.getMessage());
+        }
+    }
+
 }
