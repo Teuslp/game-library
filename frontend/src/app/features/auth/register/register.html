@@ -1,0 +1,71 @@
+<div class="auth-wrapper">
+  <div class="glass-panel">
+    <div class="auth-header">
+      <h2>Junte-se à GameLibrary</h2>
+      <p>Crie uma conta para iniciar sua coleção</p>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
+      <div class="form-group">
+        <label for="name">Nome</label>
+        <input 
+          id="name" 
+          type="text" 
+          formControlName="name" 
+          placeholder="Digite seu nome"
+          autocomplete="name"
+        >
+        <div class="error-msg" *ngIf="registerForm.get('name')?.touched && registerForm.get('name')?.invalid">
+          O nome é obrigatório e deve ter pelo menos 2 caracteres
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input 
+          id="email" 
+          type="email" 
+          formControlName="email" 
+          placeholder="Digite seu email"
+          autocomplete="email"
+        >
+        <div class="error-msg" *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid">
+          Por favor, insira um email válido
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Senha</label>
+        <input 
+          id="password" 
+          type="password" 
+          formControlName="password" 
+          placeholder="Crie uma senha forte"
+          autocomplete="new-password"
+        >
+        <div class="error-msg" *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid">
+          A senha deve ter pelo menos 6 caracteres
+        </div>
+      </div>
+
+      <div class="error-banner" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <button type="submit" [disabled]="registerForm.invalid || isLoading" class="btn-primary">
+        <span *ngIf="!isLoading">Criar Conta</span>
+        <span *ngIf="isLoading" class="loader"></span>
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      <p>Já tem uma conta? <a routerLink="/login">Entre aqui</a></p>
+    </div>
+  </div>
+  
+  <div class="animated-background">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+</div>

@@ -1,0 +1,44 @@
+<div class="dashboard-wrapper">
+  <nav class="glass-navbar">
+    <div class="logo">GameLibrary</div>
+    <div class="nav-links">
+      <a routerLink="/collection" class="active">Minha Coleção</a>
+      <a routerLink="/games">Descobrir</a>
+      <button (click)="logout()" class="btn-logout">Sair</button>
+    </div>
+  </nav>
+
+  <main class="dashboard-content">
+    <div class="header-section">
+      <h1>Seu Universo de Jogos</h1>
+      <p>Gerencie e acompanhe todos os jogos que você ama.</p>
+    </div>
+
+    <div class="collection-grid" *ngIf="collection$ | async as collection; else loading">
+      <div class="empty-state" *ngIf="collection.length === 0">
+        <h3>Sua coleção está vazia</h3>
+        <p>Vá para <a routerLink="/games">Descobrir</a> para adicionar alguns jogos.</p>
+      </div>
+
+      <div class="game-card glass-card" *ngFor="let item of collection">
+        <div class="card-image" [style.backgroundImage]="'url(' + item.backgroundImage + ')'">
+        </div>
+        <div class="card-content">
+          <h3>{{ item.name }}</h3>
+          <p class="release-date">Avaliação: {{ item.rating }}</p>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #loading>
+      <div class="loader-container">
+        <div class="loader"></div>
+      </div>
+    </ng-template>
+  </main>
+  
+  <div class="animated-background">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+  </div>
+</div>

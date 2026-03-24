@@ -1,0 +1,58 @@
+<div class="dashboard-wrapper">
+  <nav class="glass-navbar">
+    <div class="logo">GameLibrary</div>
+    <div class="nav-links">
+      <a routerLink="/collection">Minha Coleção</a>
+      <a routerLink="/games" class="active">Descobrir</a>
+      <button (click)="logout()" class="btn-logout">Sair</button>
+    </div>
+  </nav>
+
+  <main class="dashboard-content">
+    <div class="header-section">
+      <h1>Descubra Novos Games</h1>
+      <p>Pesquise no vasto banco de dados e adicione jogos à sua coleção.</p>
+    </div>
+
+    <div class="search-bar">
+      <input type="text" [(ngModel)]="searchQuery" (input)="onSearchInput($event)" (keyup.enter)="search()"
+        placeholder="Pesquise por um jogo (ex: Witcher 3, Cyberpunk...)">
+      <button (click)="search()">Pesquisar</button>
+    </div>
+
+    <div class="loader-container" *ngIf="isLoading">
+      <div class="loader"></div>
+    </div>
+
+    <div class="collection-grid" *ngIf="!isLoading && games && games.length > 0">
+      <div class="game-card glass-card" *ngFor="let game of games">
+        <div class="card-image" [style.backgroundImage]="'url(' + (game.imageUrl || game.background_image) + ')'">
+        </div>
+        <div class="card-content">
+          <h3 [title]="game.name || game.title">{{ game.name || game.title }}</h3>
+          <p class="release-date">Lançamento: {{ (game.released || game.releaseDate) | date }}</p>
+
+          <button
+            [disabled]="addedGames.has(game.externalId || game.id || 0) || addingGames.has(game.externalId || game.id || 0)"
+            class="btn-add" (click)="addToCollection(game)">
+            <span *ngIf="addingGames.has(game.externalId || game.id || 0)">Adicionando...</span>
+            <span
+              *ngIf="!addingGames.has(game.externalId || game.id || 0) && !addedGames.has(game.externalId || game.id || 0)">Adicionar
+              à Coleção</span>
+            <span *ngIf="addedGames.has(game.externalId || game.id || 0)">Adicionado ✓</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="!isLoading && (!games || games.length === 0)">
+      <h3>Nenhum jogo encontrado</h3>
+      <p>Tente pesquisar com palavras-chave diferentes.</p>
+    </div>
+  </main>
+
+  <div class="animated-background">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+  </div>
+</div>

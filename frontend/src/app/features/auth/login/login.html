@@ -1,0 +1,57 @@
+<div class="auth-wrapper">
+  <div class="glass-panel">
+    <div class="auth-header">
+      <h2>Bem-vindo de volta</h2>
+      <p>Entre para acessar sua GameLibrary</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input 
+          id="email" 
+          type="email" 
+          formControlName="email" 
+          placeholder="Digite seu email"
+          autocomplete="email"
+        >
+        <div class="error-msg" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+          Por favor, insira um email válido
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Senha</label>
+        <input 
+          id="password" 
+          type="password" 
+          formControlName="password" 
+          placeholder="Digite sua senha"
+          autocomplete="current-password"
+        >
+        <div class="error-msg" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+          A senha deve ter pelo menos 6 caracteres
+        </div>
+      </div>
+
+      <div class="error-banner" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <button type="submit" [disabled]="loginForm.invalid || isLoading" class="btn-primary">
+        <span *ngIf="!isLoading">Entrar</span>
+        <span *ngIf="isLoading" class="loader"></span>
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      <p>Não tem uma conta? <a routerLink="/register">Cadastre-se agora</a></p>
+    </div>
+  </div>
+  
+  <div class="animated-background">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+</div>

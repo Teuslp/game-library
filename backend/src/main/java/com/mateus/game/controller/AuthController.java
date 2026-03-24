@@ -1,6 +1,7 @@
 package com.mateus.game.controller;
 
 import com.mateus.game.dto.LoginRequestDTO;
+import com.mateus.game.dto.LoginResponseDTO;
 import com.mateus.game.entity.User;
 import com.mateus.game.service.TokenService;
 import org.springframework.http.ResponseEntity;
@@ -24,13 +25,13 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequestDTO data) {
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO data) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
 
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
         var token = tokenService.generateToken((User) auth.getPrincipal());
 
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 }
