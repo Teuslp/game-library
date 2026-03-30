@@ -19,7 +19,7 @@ public class GameController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<RawgResponseDTO> search(@RequestParam String name) {
+    public ResponseEntity<RawgResponseDTO> search(@RequestParam("name") String name) {
         RawgResponseDTO response = gameApiService.searchGames(name);
         return ResponseEntity.ok(response);
     }

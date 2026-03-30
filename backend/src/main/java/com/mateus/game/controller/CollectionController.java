@@ -17,7 +17,7 @@ public class CollectionController {
     }
 
     @PostMapping("/add/{rawgId}")
-    public ResponseEntity<String> addGame(@PathVariable Long rawgId) {
+    public ResponseEntity<String> addGame(@PathVariable("rawgId") Long rawgId) {
         try {
             collectionService.addGameToCollection(rawgId);
             return ResponseEntity.ok("Jogo adicionado à sua coleção com sucesso!");
@@ -33,7 +33,7 @@ public class CollectionController {
     }
 
     @DeleteMapping("/remove/{rawgId}")
-    public ResponseEntity<String> removeGame(@PathVariable Long rawgId) {
+    public ResponseEntity<String> removeGame(@PathVariable("rawgId") Long rawgId) {
         try {
             collectionService.removeGameFromCollection(rawgId);
             return ResponseEntity.ok("Jogo removido da sua coleção com sucesso!");
