@@ -31,17 +31,42 @@
     </div>
     
     <div class="carousel-container">
-      @for(game of featuredGames; track game.id) {
-        <div class="game-card">
-          <div class="card-image-wrapper">
-            <div class="card-image" [style.backgroundImage]="'url(' + game.imageUrl + ')'"></div>
-          </div>
-          <div class="card-content">
-            <h3>{{ game.title }}</h3>
-            <span class="genre">{{ game.genre }}</span>
-          </div>
+      <div class="carousel-track">
+        <!-- Grupo Principal (1-6) -->
+        <div class="carousel-group">
+          @for(game of featuredGames; track game.id) {
+            <div class="game-card">
+              <div class="card-image-wrapper">
+                <div class="card-image" [style.backgroundImage]="'url(' + game.imageUrl + ')'"></div>
+                <div class="card-overlay"></div>
+              </div>
+              <div class="card-content">
+                <div class="badge-row">
+                  <span class="badge">{{ game.genre }}</span>
+                </div>
+                <h3>{{ game.title }}</h3>
+              </div>
+            </div>
+          }
         </div>
-      }
+        <!-- Grupo Duplicado para Cópia Visual em Looping Ininterrupto -->
+        <div class="carousel-group" aria-hidden="true">
+          @for(game of featuredGames; track game.id) {
+            <div class="game-card">
+              <div class="card-image-wrapper">
+                <div class="card-image" [style.backgroundImage]="'url(' + game.imageUrl + ')'"></div>
+                <div class="card-overlay"></div>
+              </div>
+              <div class="card-content">
+                <div class="badge-row">
+                  <span class="badge">{{ game.genre }}</span>
+                </div>
+                <h3>{{ game.title }}</h3>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
     </div>
   </section>
 </div>
