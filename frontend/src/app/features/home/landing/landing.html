@@ -1,0 +1,47 @@
+<div class="landing-container">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <!-- Imagem de fundo e Overlay Escuro -->
+    <div class="background-layer"></div>
+    <div class="overlay-gradient"></div>
+
+    <!-- Header Minimalista -->
+    <header class="header">
+      <div class="logo">GL</div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="main-content">
+      <div class="copy-wrapper">
+        <h1 class="headline">Sua Coleção de Jogos em um Só Lugar</h1>
+        <p class="subtitle">Busque, organize e acesse sua biblioteca pessoal instantaneamente.</p>
+        
+        <div class="action-area">
+          <button class="cta-button" routerLink="/login">Entrar / Começar</button>
+        </div>
+      </div>
+    </main>
+  </section>
+
+  <!-- Featured Games Section -->
+  <section class="featured-section">
+    <div class="featured-header">
+      <h2>Jogos em Destaque</h2>
+      <p>Explore mundos incríveis nas adições recentes.</p>
+    </div>
+    
+    <div class="carousel-container">
+      @for(game of featuredGames; track game.id) {
+        <div class="game-card">
+          <div class="card-image-wrapper">
+            <div class="card-image" [style.backgroundImage]="'url(' + game.imageUrl + ')'"></div>
+          </div>
+          <div class="card-content">
+            <h3>{{ game.title }}</h3>
+            <span class="genre">{{ game.genre }}</span>
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+</div>

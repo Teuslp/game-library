@@ -1,1 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
+
+:root {
+  /* Colors */
+  --color-black-base: #030303;
+  --color-deep-navy: #0A0E17;
+  --color-text-primary: #F8FAFC;
+  --color-text-secondary: #94A3B8;
+  --color-gradient-start: #8B5CF6;
+  --color-gradient-end: #A855F7;
+
+  /* Typography */
+  --font-family-primary: 'Inter', sans-serif;
+}
+
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  font-family: var(--font-family-primary);
+  background-color: var(--color-black-base);
+  color: var(--color-text-primary);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

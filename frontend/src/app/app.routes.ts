@@ -2,7 +2,10 @@ import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { 
+    path: '', 
+    loadComponent: () => import('./features/home/landing/landing').then(m => m.Landing)
+  },
   { 
     path: 'login', 
     loadComponent: () => import('./features/auth/login/login').then(m => m.Login)
