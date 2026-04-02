@@ -3,70 +3,179 @@
 .search-bar {
   display: flex;
   gap: 1rem;
-  margin-bottom: 3rem;
-  max-width: 600px;
+  margin-bottom: 4rem;
+  max-width: 700px;
   animation: fadeIn 0.8s ease;
 
   input {
     flex: 1;
-    padding: 1rem 1.5rem;
-    background: rgba(30, 41, 59, 0.6);
+    padding: 1.25rem 2rem;
+    background: rgba(10, 14, 23, 0.5); /* darker glass */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
+    border-radius: 50px; /* Pill shaped input */
     color: #fff;
-    font-size: 1rem;
+    font-size: 1.05rem;
     font-family: inherit;
     outline: none;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);
+
+    &::placeholder {
+      color: #64748b;
+    }
 
     &:focus {
+      background: rgba(10, 14, 23, 0.7);
       border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.3), 0 0 20px rgba(59, 130, 246, 0.2);
     }
   }
 
   button {
-    padding: 0 2rem;
-    background: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%);
-    border: none;
-    border-radius: 12px;
-    color: white;
-    font-weight: 600;
-    font-size: 1rem;
+    position: relative;
+    padding: 0 2.5rem;
+    background: rgba(255, 255, 255, 0.05); /* matches CTA */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50px; 
+    color: #FFFFFF;
+    font-weight: 500;
+    font-size: 1.05rem;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    z-index: 1;
+
+    /* Animated Border */
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50px;
+      padding: 2px;
+      background: linear-gradient(90deg, #60A5FA, #3B82F6, #60A5FA);
+      background-size: 200% 100%;
+      animation: gradient-border-add 3s linear infinite;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      z-index: -1;
+    }
 
     &:hover {
       transform: translateY(-2px);
-      box-shadow: 0 10px 20px -10px rgba(59, 130, 246, 0.6);
+      background: rgba(255, 255, 255, 0.1);
+      border-color: transparent;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3), 0 0 20px rgba(59, 130, 246, 0.15);
+      
+      &::before, &::after {
+        opacity: 1;
+      }
+    }
+
+    &:active {
+      transform: translateY(1px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     }
   }
 }
 
 .btn-add {
+  position: relative;
   margin-top: 1rem;
   width: 100%;
   padding: 0.8rem;
-  border: none;
-  border-radius: 8px;
-  background: rgba(59, 130, 246, 0.15);
-  color: #60A5FA;
-  border: 1px solid rgba(59, 130, 246, 0.4);
+  background: rgba(255, 255, 255, 0.05); /* Frosted base */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.15); /* Elegant edge */
+  border-radius: 50px; /* Estilo cápsula igual ao CTA central */
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  z-index: 1;
+
+  /* Animated Blue Border (Hidden) */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50px;
+    padding: 2px;
+    background: linear-gradient(90deg, #60A5FA, #3B82F6, #60A5FA);
+    background-size: 200% 100%;
+    animation: gradient-border-add 3s linear infinite;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  /* Inner subtle brightness */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1;
+  }
 
   &:hover:not(:disabled) {
-    background: rgba(59, 130, 246, 0.3);
-    border-color: #3B82F6;
-    color: #EFF6FF;
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: transparent; /* Makes way for the animated mask border */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 20px rgba(59, 130, 246, 0.15);
+    
+    &::before, &::after {
+      opacity: 1;
+    }
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   }
 
   &:disabled {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.02);
     color: #64748b;
     border-color: rgba(255, 255, 255, 0.05);
     cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
   }
+}
+
+@keyframes gradient-border-add {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
 }

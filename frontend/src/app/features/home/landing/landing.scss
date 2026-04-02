@@ -120,25 +120,38 @@
   margin-top: 2rem;
 }
 
-/* Botão Cyberpunk Maior para o Centro */
+/* Botão Elegante e Minimalista para o Centro */
 .hero-cta-button {
   position: relative;
-  background: rgba(10, 14, 23, 0.6);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   color: #FFFFFF;
   font-family: inherit;
-  font-size: 1.15rem;
-  /* Um pouco maior que o do header */
-  font-weight: 700;
-  padding: 1rem 3rem;
-  /* Área de toque mais generosa */
-  border: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding: 1rem 2.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 50px;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-  box-shadow: 0 0 25px rgba(59, 130, 246, 0.15);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   z-index: 1;
+  overflow: hidden;
 
+  /* Reflexo Interno Sutil no Hover */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1;
+  }
+
+  /* Borda Animada Azul (Ativada no Hover) */
   &::before {
     content: '';
     position: absolute;
@@ -153,34 +166,25 @@
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
-    z-index: -1;
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 50px;
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.35), rgba(59, 130, 246, 0.15));
+    z-index: 2;
     opacity: 0;
     transition: opacity 0.4s ease;
-    z-index: -2;
   }
 
   &:hover {
-    transform: translateY(-2px) scale(1.02);
-    /* Efeito elástico extra */
-    box-shadow: 0 0 40px rgba(96, 165, 250, 0.4), inset 0 0 20px rgba(59, 130, 246, 0.2);
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-
-    &::after {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: transparent;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 20px rgba(59, 130, 246, 0.15);
+    
+    &::after, &::before {
       opacity: 1;
     }
   }
 
   &:active {
     transform: translateY(1px);
-    box-shadow: 0 0 20px rgba(96, 165, 250, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   }
 }
 
