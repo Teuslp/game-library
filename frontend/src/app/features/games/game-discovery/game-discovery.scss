@@ -46,25 +46,27 @@
 .btn-add {
   margin-top: 1rem;
   width: 100%;
-  padding: 0.75rem;
+  padding: 0.8rem;
   border: none;
   border-radius: 8px;
-  background: rgba(16, 185, 129, 0.1);
-  color: #34d399;
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  background: rgba(59, 130, 246, 0.15);
+  color: #60A5FA;
+  border: 1px solid rgba(59, 130, 246, 0.4);
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s;
 
   &:hover:not(:disabled) {
-    background: rgba(16, 185, 129, 0.2);
-    border-color: #34d399;
+    background: rgba(59, 130, 246, 0.3);
+    border-color: #3B82F6;
+    color: #EFF6FF;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
   }
 
   &:disabled {
     background: rgba(255, 255, 255, 0.05);
     color: #64748b;
-    border-color: transparent;
+    border-color: rgba(255, 255, 255, 0.05);
     cursor: not-allowed;
   }
 }
