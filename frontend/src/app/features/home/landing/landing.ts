@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, HostListener, AfterViewInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { GameService } from '../../../core/services/game.service';
@@ -10,17 +10,26 @@ import { GameService } from '../../../core/services/game.service';
   templateUrl: './landing.html',
   styleUrls: ['./landing.scss']
 })
-export class Landing implements OnInit {
+export class Landing implements OnInit, AfterViewInit, OnDestroy {
   featuredGames: any[] = [];
+  scrollY = 0;
+  isLaserFired = false;
+  isFeaturedLaserFired = false;
+
+  @ViewChild('featuresSection') featuresSection!: ElementRef;
+  @ViewChild('featuredSection') featuredSection!: ElementRef;
+  private observer: IntersectionObserver | null = null;
 
   constructor(private gameService: GameService, private cdr: ChangeDetectorRef) {}
 
+  @HostListener('window:scroll')
+  onWindowScroll() {
+    this.scrollY = window.scrollY;
+  }
+
   ngOnInit() {
-    // Buscando uma palavra-chave como destaque para encher o carrossel usando a API real
     this.gameService.searchGames('witcher').subscribe({
       next: (response: any) => {
-        console.log('Resposta da API do Backend:', response);
-        
         if (response && response.results && response.results.length > 0) {
           this.featuredGames = response.results.slice(0, 6).map((g: any) => ({
             id: g.id,
@@ -29,19 +38,51 @@ export class Landing implements OnInit {
             imageUrl: g.background_image || g.backgroundImage || 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=600&auto=format&fit=crop'
           }));
         } else {
-          console.warn('Backend retornou vazio. Usando Fallback.');
           this.featuredGames = this.getFallbackGames();
         }
-        
-        // O Angular às vezes perde o trigger de re-renderização quando lidamos com arrays e requisições assíncronas em standalone
         this.cdr.detectChanges();
       },
       error: (err: any) => {
-        console.error('Erro ao recarregar a API:', err);
         this.featuredGames = this.getFallbackGames();
         this.cdr.detectChanges();
       }
     });
+  }
+
+  ngAfterViewInit() {
+    const options = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.3
+    };
+
+    this.observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          if (entry.target === this.featuresSection?.nativeElement) {
+            this.isLaserFired = true;
+            this.observer?.unobserve(entry.target);
+          } else if (entry.target === this.featuredSection?.nativeElement) {
+            this.isFeaturedLaserFired = true;
+            this.observer?.unobserve(entry.target);
+          }
+          this.cdr.detectChanges();
+        }
+      });
+    }, options);
+
+    if (this.featuresSection) {
+      this.observer.observe(this.featuresSection.nativeElement);
+    }
+    if (this.featuredSection) {
+      this.observer.observe(this.featuredSection.nativeElement);
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.observer) {
+      this.observer.disconnect();
+    }
   }
 
   private getFallbackGames() {

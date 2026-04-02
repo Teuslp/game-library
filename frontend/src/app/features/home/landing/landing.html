@@ -1,31 +1,26 @@
 <div class="landing-container">
   <!-- Hero Section -->
   <section class="hero-section">
-    <!-- Imagem de fundo e Overlay Escuro -->
-    <div class="background-layer"></div>
+    <!-- Imagem de fundo multicamadas e Overlay Escuro -->
+    <div class="background-layer" [style.transform]="'translateY(' + (scrollY * 0.15) + 'px) scale(' + (1.05 + (scrollY * 0.0003)) + ')'"></div>
     <div class="overlay-gradient"></div>
-
-    <!-- Header Minimalista com Botão de Acesso -->
-    <header class="header">
-      <div class="auth-actions">
-        <button class="header-cta-button" routerLink="/login">Entrar / Começar →</button>
-      </div>
-    </header>
 
     <!-- Conteúdo Principal -->
     <main class="main-content">
-      <div class="copy-wrapper">
+      <div class="copy-wrapper" [style.transform]="'translateY(' + (scrollY * 0.35) + 'px) scale(' + (1 - (scrollY * 0.0008)) + ')'" [style.opacity]="1 - (scrollY / 400)">
         <div class="hero-logo-center">
           <img src="/logo.png" alt="Game Library Logo">
         </div>
         <h1 class="headline">Sua Coleção de Jogos em um Só Lugar</h1>
-        <p class="subtitle">Busque, organize e acesse sua biblioteca pessoal instantaneamente.</p>
+        <div class="action-area">
+          <button class="hero-cta-button" routerLink="/login">Entrar / Começar →</button>
+        </div>
       </div>
     </main>
   </section>
 
   <!-- Featured Games Section -->
-  <section class="featured-section">
+  <section class="featured-section laser-divider-top" #featuredSection [class.laser-fired]="isFeaturedLaserFired">
     <div class="featured-header">
       <h2>Jogos em Destaque</h2>
       <p>Explore mundos incríveis nas adições recentes.</p>
@@ -72,7 +67,7 @@
   </section>
 
   <!-- Features Section -->
-  <section class="features-section">
+  <section class="features-section laser-divider-top" #featuresSection [class.laser-fired]="isLaserFired">
     <div class="features-header">
       <h2>Funcionalidades Principais</h2>
       <p>Tudo o que você precisa para gerenciar sua biblioteca com precisão.</p>

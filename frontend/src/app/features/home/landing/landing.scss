@@ -56,85 +56,6 @@
   z-index: 1;
 }
 
-.header {
-  position: relative;
-  z-index: 2;
-  padding: 2rem 3rem;
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  /* Fixa o botão à direita */
-
-  .auth-actions {
-    display: inline-flex;
-  }
-}
-
-.header-cta-button {
-  position: relative;
-  background: rgba(10, 14, 23, 0.6);
-  /* Glassmorphism Base escuro */
-  backdrop-filter: blur(10px);
-  color: #FFFFFF;
-  font-family: inherit;
-  font-size: 1rem;
-  font-weight: 600;
-  padding: 0.8rem 2.2rem;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-  box-shadow: 0 0 20px rgba(139, 92, 246, 0.1);
-  z-index: 1;
-
-  /* Borda Animada (Gradient Stroke) via Mask Composite */
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 50px;
-    padding: 2px;
-    /* Define a espessura da linha brilhante */
-    background: linear-gradient(90deg, #8B5CF6, #3B82F6, #8B5CF6);
-    background-size: 200% 100%;
-    animation: gradient-border-flow 3s linear infinite;
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-    z-index: -1;
-  }
-
-  /* Preenchimento luminoso sutil que surge no hover */
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 50px;
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(59, 130, 246, 0.1));
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    z-index: -2;
-  }
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0 30px rgba(168, 85, 247, 0.4), inset 0 0 20px rgba(59, 130, 246, 0.2);
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-    /* Letra acende levemente */
-
-    &::after {
-      opacity: 1;
-      /* Liga o preenchimento sutil interno */
-    }
-  }
-
-  &:active {
-    transform: translateY(1px);
-    box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
-  }
-}
 
 @keyframes gradient-border-flow {
   0% {
@@ -192,16 +113,75 @@
   text-shadow: 0px 4px 30px rgba(0, 0, 0, 0.8);
 }
 
-.subtitle {
-  font-size: 1.25rem;
-  font-weight: 400;
-  color: var(--color-text-secondary);
-  line-height: 1.5;
-  margin-bottom: 3rem;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-  text-shadow: 0px 2px 10px rgba(0, 0, 0, 0.8);
+.action-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+/* Botão Cyberpunk Maior para o Centro */
+.hero-cta-button {
+  position: relative;
+  background: rgba(10, 14, 23, 0.6);
+  backdrop-filter: blur(10px);
+  color: #FFFFFF;
+  font-family: inherit;
+  font-size: 1.15rem;
+  /* Um pouco maior que o do header */
+  font-weight: 700;
+  padding: 1rem 3rem;
+  /* Área de toque mais generosa */
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  box-shadow: 0 0 25px rgba(139, 92, 246, 0.15);
+  z-index: 1;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50px;
+    padding: 2px;
+    background: linear-gradient(90deg, #8B5CF6, #3B82F6, #8B5CF6);
+    background-size: 200% 100%;
+    animation: gradient-border-flow 3s linear infinite;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50px;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.35), rgba(59, 130, 246, 0.15));
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -2;
+  }
+
+  &:hover {
+    transform: translateY(-2px) scale(1.02);
+    /* Efeito elástico extra */
+    box-shadow: 0 0 40px rgba(168, 85, 247, 0.4), inset 0 0 20px rgba(59, 130, 246, 0.2);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+
+    &::after {
+      opacity: 1;
+    }
+  }
+
+  &:active {
+    transform: translateY(1px);
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+  }
 }
 
 
@@ -209,13 +189,13 @@
 .featured-section {
   position: relative;
   z-index: 2;
-  padding: 6rem 3rem;
+  padding: 10rem 3rem 8rem 3rem; /* Aumentado espaçamento superior e inferior */
   background: linear-gradient(to bottom, var(--color-black-base) 0%, var(--color-deep-navy) 100%);
 }
 
 .featured-header {
   text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 6rem; /* Muito mais respiro entre o título e os cards */
 
   h2 {
     font-size: 2.5rem;
@@ -368,12 +348,15 @@
 .features-section {
   position: relative;
   z-index: 2;
-  padding: 4rem 3rem 8rem 3rem;
+  padding: 10rem 3rem 12rem 3rem; /* Espaçamento massivo para não grudar no carrossel */
   background: linear-gradient(to bottom, var(--color-deep-navy) 0%, var(--color-black-base) 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
+}
 
+/* Utilitário para Raio Laser Superior em Seções */
+.laser-divider-top {
   /* Raio de luz focalizado e vibrante (Glow forte no centro, transparente nas pontas) */
   &::before {
     content: '';
@@ -381,11 +364,13 @@
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 100%;
+    width: 0%; /* Inicia zerado para a animação */
     max-width: 900px;
     height: 1px;
     background: radial-gradient(ellipse at center, rgba(168, 85, 247, 1) 0%, rgba(139, 92, 246, 0.4) 40%, transparent 80%);
     box-shadow: 0 2px 30px 2px rgba(168, 85, 247, 0.5);
+    opacity: 0;
+    transition: width 2s cubic-bezier(0.25, 1, 0.5, 1), opacity 1s ease;
   }
 
   /* Ponto de Detalhe (Diamante sci-fi brilhante) exatamente no meio da linha */
@@ -394,18 +379,32 @@
     position: absolute;
     top: -3px;
     left: 50%;
-    transform: translateX(-50%) rotate(45deg);
+    transform: translateX(-50%) rotate(45deg) scale(0);
     width: 6px;
     height: 6px;
     background-color: var(--color-text-primary);
     box-shadow: 0 0 15px 4px rgba(168, 85, 247, 0.8);
     border: 1px solid rgba(139, 92, 246, 0.8);
+    opacity: 0;
+    transition: all 1s ease 0.5s; /* Atrasar a aparição do diamante até o raio estar aberto */
+  }
+
+  /* Disparo executado pelo Observer do Angular */
+  &.laser-fired {
+    &::before {
+      width: 100%;
+      opacity: 1;
+    }
+    &::after {
+      opacity: 1;
+      transform: translateX(-50%) rotate(45deg) scale(1);
+    }
   }
 }
 
 .features-header {
   text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 6rem; /* Mais espaçamento para a grade de cards */
 
   h2 {
     font-size: 2.5rem;
@@ -426,7 +425,7 @@
 .features-grid {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  gap: 2rem;
+  gap: 3.5rem; /* Aumentado brutalmente para espalhar os cards visualmente e não sufocá-los */
   max-width: 1200px;
   width: 100%;
 
