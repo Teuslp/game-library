@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -15,9 +15,8 @@ export interface CollectionItem {
   providedIn: 'root'
 })
 export class CollectionService {
+  private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/collections`;
-
-  constructor(private http: HttpClient) {}
 
   getMyCollection(): Observable<CollectionItem[]> {
     return this.http.get<CollectionItem[]>(this.apiUrl);

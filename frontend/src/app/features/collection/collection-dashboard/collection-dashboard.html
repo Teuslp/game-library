@@ -26,27 +26,35 @@
       <p>Gerencie e acompanhe todos os jogos que você ama.</p>
     </div>
 
-    <div class="collection-grid" *ngIf="collection$ | async as collection; else loading">
-      <div class="empty-state" *ngIf="collection.length === 0">
-        <h3>Sua coleção está vazia</h3>
-        <p>Vá para <a routerLink="/games">Descobrir</a> para adicionar alguns jogos.</p>
-      </div>
-
-      <div class="game-card glass-card" *ngFor="let item of collection">
-        <div class="card-image" [style.backgroundImage]="'url(' + item.backgroundImage + ')'">
-        </div>
-        <div class="card-content">
-          <h3>{{ item.name }}</h3>
-          <p class="release-date">Avaliação: {{ item.rating }}</p>
-        </div>
-      </div>
-    </div>
-
-    <ng-template #loading>
+    @if (collection() === undefined) {
       <div class="loader-container">
         <div class="loader"></div>
       </div>
-    </ng-template>
+    } @else {
+      @if (collection()!.length === 0) {
+        <div class="empty-state">
+          <svg viewBox="0 0 24 24" class="empty-icon" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+          <h3>Sua coleção está vazia</h3>
+          <p>O universo é imenso. Vá para <a routerLink="/games">Descobrir</a> e inicie sua jornada.</p>
+        </div>
+      } @else {
+        <div class="collection-grid">
+          @for (item of collection(); track item.rawgId) {
+            <div class="game-card glass-card">
+              <div class="card-image" [style.backgroundImage]="'url(' + item.backgroundImage + ')'"></div>
+              <div class="card-content">
+                <h3>{{ item.name }}</h3>
+                <p class="release-date">Avaliação: {{ item.rating }}</p>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    }
   </main>
   
 

@@ -328,19 +328,56 @@
 .empty-state {
   grid-column: 1 / -1;
   text-align: center;
-  padding: 4rem;
-  background: rgba(10, 14, 23, 0.6);
-  border-radius: 16px;
+  padding: 5rem 2rem;
+  background: rgba(10, 14, 23, 0.4);
+  border-radius: 24px;
   border: 1px dashed rgba(255, 255, 255, 0.1);
+  margin-top: 2rem;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: rgba(96, 165, 250, 0.4);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(59, 130, 246, 0.05);
+  }
+
+  .empty-icon {
+    width: 64px;
+    height: 64px;
+    color: var(--color-text-secondary);
+    margin-bottom: 1.5rem;
+    opacity: 0.7;
+    animation: float 4s ease-in-out infinite;
+  }
 
   h3 {
+    font-size: 1.5rem;
+    color: var(--color-text-primary);
     margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    color: var(--color-text-secondary);
+    font-size: 1.05rem;
   }
 
   a {
-    color: #3b82f6;
+    color: #60A5FA;
     text-decoration: none;
+    font-weight: 500;
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s;
+
+    &:hover {
+      border-color: #60A5FA;
+      text-shadow: 0 0 10px rgba(96, 165, 250, 0.5);
+    }
   }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
 @keyframes slideUp {

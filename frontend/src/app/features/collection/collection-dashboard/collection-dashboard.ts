@@ -1,29 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { CollectionService, CollectionItem } from '../../../core/services/collection.service';
 import { AuthService } from '../../../core/services/auth.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-collection-dashboard',
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './collection-dashboard.html',
-  styleUrl: './collection-dashboard.scss'
+  styleUrl: './collection-dashboard.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CollectionDashboard implements OnInit {
-  collection$: Observable<CollectionItem[]>;
+export class CollectionDashboard {
+  private collectionService = inject(CollectionService);
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
-  constructor(
-    private collectionService: CollectionService,
-    private authService: AuthService,
-    private router: Router
-  ) {
-    this.collection$ = this.collectionService.getMyCollection();
-  }
-
-  ngOnInit(): void {}
+  collection = toSignal(this.collectionService.getMyCollection());
 
   logout() {
     this.authService.logout();
