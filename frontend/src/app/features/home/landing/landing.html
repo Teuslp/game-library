@@ -2,12 +2,12 @@
   <!-- Hero Section -->
   <section class="hero-section">
     <!-- Imagem de fundo multicamadas e Overlay Escuro -->
-    <div class="background-layer" [style.transform]="'translateY(' + (scrollY * 0.15) + 'px) scale(' + (1.05 + (scrollY * 0.0003)) + ')'"></div>
+    <div class="background-layer" [style.transform]="'translateY(' + (scrollY() * 0.15) + 'px) scale(' + (1.05 + (scrollY() * 0.0003)) + ')'"></div>
     <div class="overlay-gradient"></div>
 
     <!-- Conteúdo Principal -->
     <main class="main-content">
-      <div class="copy-wrapper" [style.transform]="'translateY(' + (scrollY * 0.35) + 'px) scale(' + (1 - (scrollY * 0.0008)) + ')'" [style.opacity]="1 - (scrollY / 400)">
+      <div class="copy-wrapper" [style.transform]="'translateY(' + (scrollY() * 0.35) + 'px) scale(' + (1 - (scrollY() * 0.0008)) + ')'" [style.opacity]="1 - (scrollY() / 400)">
         <div class="hero-logo-center">
           <img src="/logo.png" alt="Game Library Logo">
         </div>
@@ -20,7 +20,7 @@
   </section>
 
   <!-- Featured Games Section -->
-  <section class="featured-section laser-divider-top" #featuredSection [class.laser-fired]="isFeaturedLaserFired">
+  <section class="featured-section laser-divider-top" #featuredSection [class.laser-fired]="isFeaturedLaserFired()">
     <div class="featured-header">
       <h2>Jogos em Destaque</h2>
       <p>Explore mundos incríveis nas adições recentes.</p>
@@ -30,7 +30,7 @@
       <div class="carousel-track">
         <!-- Grupo Principal (1-6) -->
         <div class="carousel-group">
-          @for(game of featuredGames; track game.id) {
+          @for(game of featuredGames(); track game.id) {
             <div class="game-card">
               <div class="card-image-wrapper">
                 <div class="card-image" [style.backgroundImage]="'url(' + game.imageUrl + ')'"></div>
@@ -47,7 +47,7 @@
         </div>
         <!-- Grupo Duplicado para Cópia Visual em Looping Ininterrupto -->
         <div class="carousel-group" aria-hidden="true">
-          @for(game of featuredGames; track game.id) {
+          @for(game of featuredGames(); track game.id) {
             <div class="game-card">
               <div class="card-image-wrapper">
                 <div class="card-image" [style.backgroundImage]="'url(' + game.imageUrl + ')'"></div>
@@ -67,7 +67,7 @@
   </section>
 
   <!-- Features Section -->
-  <section class="features-section laser-divider-top" #featuresSection [class.laser-fired]="isLaserFired">
+  <section class="features-section laser-divider-top" #featuresSection [class.laser-fired]="isLaserFired()">
     <div class="features-header">
       <h2>Funcionalidades Principais</h2>
       <p>Tudo o que você precisa para gerenciar sua biblioteca com precisão.</p>

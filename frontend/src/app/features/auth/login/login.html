@@ -16,9 +16,11 @@
           placeholder="Digite seu email"
           autocomplete="email"
         >
-        <div class="error-msg" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+        @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
+        <div class="error-msg">
           Por favor, insira um email válido
         </div>
+        }
       </div>
 
       <div class="form-group">
@@ -30,18 +32,25 @@
           placeholder="Digite sua senha"
           autocomplete="current-password"
         >
-        <div class="error-msg" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+        @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
+        <div class="error-msg">
           A senha deve ter pelo menos 6 caracteres
         </div>
+        }
       </div>
 
-      <div class="error-banner" *ngIf="errorMessage">
-        {{ errorMessage }}
+      @if (errorMessage()) {
+      <div class="error-banner">
+        {{ errorMessage() }}
       </div>
+      }
 
-      <button type="submit" [disabled]="loginForm.invalid || isLoading" class="btn-primary">
-        <span *ngIf="!isLoading">Entrar</span>
-        <span *ngIf="isLoading" class="loader"></span>
+      <button type="submit" [disabled]="loginForm.invalid || isLoading()" class="btn-primary">
+        @if (!isLoading()) {
+          <span>Entrar</span>
+        } @else {
+          <span class="loader"></span>
+        }
       </button>
     </form>
 

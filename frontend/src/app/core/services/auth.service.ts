@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 export interface LoginRequest {
@@ -23,11 +23,13 @@ export interface User {
   providedIn: 'root'
 })
 export class AuthService {
+  private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/auth`;
-  private currentUserSubject = new BehaviorSubject<User | null>(null);
-  public currentUser$ = this.currentUserSubject.asObservable();
+  
+  private currentUserState = signal<User | null>(null);
+  public currentUser = this.currentUserState.asReadonly();
 
-  constructor(private http: HttpClient) {
+  constructor() {
     this.checkToken();
   }
 
@@ -44,7 +46,7 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('auth_token');
-    this.currentUserSubject.next(null);
+    this.currentUserState.set(null);
   }
 
   getToken(): string | null {
@@ -61,7 +63,7 @@ export class AuthService {
       // Decode JWT to get user info if needed, or simply assume logged in
       try {
         const payload = JSON.parse(atob(token.split('.')[1]));
-        this.currentUserSubject.next({
+        this.currentUserState.set({
           id: payload.id || 0,
           login: payload.sub || '',
           role: payload.role || 'USER'

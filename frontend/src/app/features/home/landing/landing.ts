@@ -1,4 +1,5 @@
-import { Component, OnInit, ChangeDetectorRef, HostListener, AfterViewInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, HostListener, AfterViewInit, ElementRef, ViewChild, OnDestroy, ChangeDetectionStrategy, signal, inject, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { GameService } from '../../../core/services/game.service';
@@ -8,45 +9,47 @@ import { GameService } from '../../../core/services/game.service';
   standalone: true,
   imports: [RouterLink, CommonModule],
   templateUrl: './landing.html',
-  styleUrls: ['./landing.scss']
+  styleUrls: ['./landing.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Landing implements OnInit, AfterViewInit, OnDestroy {
-  featuredGames: any[] = [];
-  scrollY = 0;
-  isLaserFired = false;
-  isFeaturedLaserFired = false;
+  private gameService = inject(GameService);
+  private destroyRef = inject(DestroyRef);
+
+  featuredGames = signal<any[]>([]);
+  scrollY = signal(0);
+  isLaserFired = signal(false);
+  isFeaturedLaserFired = signal(false);
 
   @ViewChild('featuresSection') featuresSection!: ElementRef;
   @ViewChild('featuredSection') featuredSection!: ElementRef;
   private observer: IntersectionObserver | null = null;
 
-  constructor(private gameService: GameService, private cdr: ChangeDetectorRef) {}
-
   @HostListener('window:scroll')
   onWindowScroll() {
-    this.scrollY = window.scrollY;
+    this.scrollY.set(window.scrollY);
   }
 
   ngOnInit() {
-    this.gameService.searchGames('witcher').subscribe({
-      next: (response: any) => {
-        if (response && response.results && response.results.length > 0) {
-          this.featuredGames = response.results.slice(0, 6).map((g: any) => ({
-            id: g.id,
-            title: g.name || 'Jogo Desconhecido',
-            genre: `★ Rating: ${g.rating ? g.rating : 'N/A'}`,
-            imageUrl: g.background_image || g.backgroundImage || 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=600&auto=format&fit=crop'
-          }));
-        } else {
-          this.featuredGames = this.getFallbackGames();
+    this.gameService.searchGames('witcher')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response: any) => {
+          if (response && response.results && response.results.length > 0) {
+            this.featuredGames.set(response.results.slice(0, 6).map((g: any) => ({
+              id: g.id,
+              title: g.name || 'Jogo Desconhecido',
+              genre: `★ Rating: ${g.rating ? g.rating : 'N/A'}`,
+              imageUrl: g.background_image || g.backgroundImage || 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=600&auto=format&fit=crop'
+            })));
+          } else {
+            this.featuredGames.set(this.getFallbackGames());
+          }
+        },
+        error: (err: any) => {
+          this.featuredGames.set(this.getFallbackGames());
         }
-        this.cdr.detectChanges();
-      },
-      error: (err: any) => {
-        this.featuredGames = this.getFallbackGames();
-        this.cdr.detectChanges();
-      }
-    });
+      });
   }
 
   ngAfterViewInit() {
@@ -60,13 +63,12 @@ export class Landing implements OnInit, AfterViewInit, OnDestroy {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           if (entry.target === this.featuresSection?.nativeElement) {
-            this.isLaserFired = true;
+            this.isLaserFired.set(true);
             this.observer?.unobserve(entry.target);
           } else if (entry.target === this.featuredSection?.nativeElement) {
-            this.isFeaturedLaserFired = true;
+            this.isFeaturedLaserFired.set(true);
             this.observer?.unobserve(entry.target);
           }
-          this.cdr.detectChanges();
         }
       });
     }, options);
